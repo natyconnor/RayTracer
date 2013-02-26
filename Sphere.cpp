@@ -14,6 +14,11 @@ Sphere::Sphere(Point cen, float rad)
 }
 
 bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
+	//|R(t) - C|^2 r^2 = 0
+	//|pos + tdir - center|^2 - r^2 = 0
+
+	Vector L = center - ray.pos;
+
 	return false;
 }
 

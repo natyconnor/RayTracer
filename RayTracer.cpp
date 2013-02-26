@@ -21,10 +21,10 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		*color = Color();
 	}
 	//loop through all primitives
-	for(int i = 0; i < prims.size(); i++){
+	//for(int i = 0; i < prims.size(); i++){
 		//if intersection
 		//compute necessary info
-	}
+	//}
 
 	//compute shading
 
