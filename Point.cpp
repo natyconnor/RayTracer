@@ -33,5 +33,9 @@ inline Vector Point::operator-(Point other){
 	return Vector(x - other.x, y - other.y, z - other.z);
 }
 
+inline Point Point::operator+(Vector other){
+	return Point(other.x + x, other.y + y, other.z + z);
+}
+
 
 #endif

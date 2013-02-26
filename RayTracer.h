@@ -4,6 +4,7 @@
 #include "Ray.h"
 #include "Color.cpp"
 #include "Primitive.h"
+#include "Sphere.h"
 
 #include <vector>
 
@@ -13,7 +14,7 @@ class RayTracer
 public:
 	int threshold;
 
-	vector<Primitive> prims;
+	vector<Sphere> prims;
 
 	RayTracer(void);
 	RayTracer(int thresh);

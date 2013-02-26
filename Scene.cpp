@@ -3,6 +3,9 @@
 #include "Film.cpp"
 #include "Sampler.cpp"
 #include "Point.cpp"
+#include "Ray.h"
+#include "Camera.h"
+#include "RayTracer.h"
 
 #include "FreeImage.h"
 
@@ -29,6 +32,10 @@ class Scene {
 	Color color;
 	Film film;
 
+	Ray ray;
+	Camera camera;
+	RayTracer raytracer;
+
   public:
 	Scene(Point eyePos, Point LL, Point UL, Point UR, Point LR, int height, int width);
 	void render();
@@ -47,12 +54,17 @@ inline Scene::Scene(Point eyePos, Point LL, Point UL, Point UR, Point LR, int he
 	sample = Sample();
 	color = Color();
 	film = Film(width, height, 24);
+
+	ray = Ray();
+	camera = Camera(eyePos, myLL, myUL, myUR, myLR, myHeight, myWidth);
+	raytracer = RayTracer();
 }
 
 inline void Scene::render(){
 	while(sampler.getSample(&sample)){
+		camera.generateRay(sample, &ray);
+		raytracer.trace(ray, 5, &color);
 		film.commit(sample, color);
-		
 	}
 	film.writeImage();
 }
@@ -79,7 +91,7 @@ int main(int argc, char *argv[]){
 		cout << "Image_successfully_saved" << endl;*/
 		
 	cout << "Starting..." << endl;
-	Scene s = Scene(Point(0,0,1), Point(-1,-1, 0), Point(-1, 1, 0), Point(1, 1, 0), Point(1,-1, 0), 100, 100);
+	Scene s = Scene(Point(0,0,0), Point(-1,-1, -1), Point(-1, 1, -1), Point(1, 1, -1), Point(1,-1, -1), 100, 100);
 	s.render();
 	return 0;
 }

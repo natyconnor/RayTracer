@@ -42,6 +42,10 @@ void Vector::normalize(){
 	}
 }
 
+float Vector::dot(Vector other){
+	return x * other.x + y * other.y + z * other.z;
+}
+
 Vector::~Vector(void)
 {
 }
