@@ -13,6 +13,7 @@ public:
 
 	Normal operator + (Normal);
 	Normal operator - (Normal);
+	Vector operator * (float);
 	void normalize();
 
 	float dot(Vector other);

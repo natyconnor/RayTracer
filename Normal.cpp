@@ -28,6 +28,10 @@ void Normal::normalize(){
 	}
 }
 
+Vector Normal::operator*(float scalar){
+	return Vector(x * scalar, y * scalar, z * scalar);
+}
+
 float Normal::dot(Vector other){
 	return x * other.x + y * other.y + z * other.z;
 }

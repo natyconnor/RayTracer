@@ -35,9 +35,10 @@ inline Film::Film(int width, int height, int bpp){
 }
 
 inline void Film::commit(Sample& sample, Color& color){
-	myColor.rgbRed = (color.r * 255.0);
-	myColor.rgbGreen = (color.g * 255.0);
-	myColor.rgbBlue = (color.b * 255.0);
+	//min is for handling values greater than 255
+	myColor.rgbRed = min((color.r * 255.0f), 255.0f);
+	myColor.rgbGreen = min((color.g * 255.0f), 255.0f);
+	myColor.rgbBlue = min((color.b * 255.0f), 255.0f);
 	FreeImage_SetPixelColor(bitmap, (unsigned int)sample.x, (unsigned int)sample.y, &myColor);
 }
 

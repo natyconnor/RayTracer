@@ -29,6 +29,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	*color = Color();
 	float thit;
 	LocalGeo intersection;
+	LocalGeo closestInter;
 	float minDistance = 99999;
 	int minPrimIndex = -1;
 	//loop through all primitives
@@ -37,11 +38,12 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		if(!prims.at(i).intersect(ray, &thit, &intersection)){
 			return;
 		}
-		//compute necessary info
+		//keep track of the closest intersection to the camera, since that is what we will draw
 		float dist = (intersection.pos - eyePos).magnitude();
 		if(dist < minDistance){
 			minDistance = dist;
 			minPrimIndex = i;
+			closestInter = intersection;
 		}
 	}
 	//compute shading
@@ -50,9 +52,9 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		Ray lray = Ray();
 		Color lcolor = Color();
 		BRDF brdf = BRDF();
-		closest.getBRDF(intersection, &brdf);
+		closest.getBRDF(closestInter, &brdf);
 		for(int i = 0; i < lights.size(); i++){
-			lights.at(i).generateLightRay(intersection, &lray, &lcolor);
+			lights.at(i).generateLightRay(closestInter, &lray, &lcolor);
 
 			//calculate Phong stuff
 			*color = *color + shading(intersection, brdf, lray, lcolor);
@@ -66,5 +68,12 @@ Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor){
 	//dot product between normal and light vectors
 	float diff = point.norm.dot(lray.dir);
 
-	return brdf.ka + (lcolor * brdf.kd) * max(diff,0.0f);
+	//specular component
+	Vector v = point.pos - eyePos;
+	v.normalize();
+	Vector r = (lray.dir * -1) + (point.norm * (2 * diff));
+	r.normalize();
+	float spec = r.dot(v);
+
+	return brdf.ka + (lcolor * brdf.kd) * max(diff,0.0f) + (lcolor * brdf.ks) * pow(max(spec,0.0f),20);
 }

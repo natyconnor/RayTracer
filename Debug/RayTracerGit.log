@@ -1,10 +1,38 @@
-﻿Build started 2/26/2013 6:40:30 PM.
-     1>Project "D:\Nathan's Stuff\My Documents\GitHub\RayTracer\RayTracerGit.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/26/2013 11:07:45 PM.
+     1>Project "D:\Nathan's Stuff\My Documents\GitHub\RayTracer\RayTracerGit.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\/FreeImage" /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt RayTracer.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\/FreeImage" /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt BRDF.cpp Camera.cpp Color.cpp Film.cpp Intersection.cpp Light.cpp LocalGeo.cpp Normal.cpp Point.cpp PointLight.cpp Primitive.cpp Ray.cpp RayTracer.cpp Sample.cpp Sampler.cpp Scene.cpp Sphere.cpp Vector.cpp
+         Vector.cpp
+         Sphere.cpp
+     1>Sphere.cpp(76): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Sphere.cpp(80): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Sphere.cpp(113): warning C4305: 'argument' : truncation from 'double' to 'float'
+         Scene.cpp
+     1>d:\nathan's stuff\my documents\github\raytracer\Film.cpp(38): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+     1>d:\nathan's stuff\my documents\github\raytracer\Film.cpp(39): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+     1>d:\nathan's stuff\my documents\github\raytracer\Film.cpp(40): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+         Sampler.cpp
+         Sample.cpp
          RayTracer.cpp
-     1>RayTracer.cpp(35): warning C4018: '<' : signed/unsigned mismatch
-     1>RayTracer.cpp(54): warning C4018: '<' : signed/unsigned mismatch
+     1>RayTracer.cpp(36): warning C4018: '<' : signed/unsigned mismatch
+     1>RayTracer.cpp(56): warning C4018: '<' : signed/unsigned mismatch
+         Ray.cpp
+         Primitive.cpp
+         PointLight.cpp
+     1>PointLight.cpp(18): warning C4305: 'argument' : truncation from 'double' to 'float'
+         Point.cpp
+         Normal.cpp
+         LocalGeo.cpp
+         Light.cpp
+         Intersection.cpp
+         Film.cpp
+     1>Film.cpp(38): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+     1>Film.cpp(39): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+     1>Film.cpp(40): warning C4244: '=' : conversion from 'const float' to 'BYTE', possible loss of data
+         Color.cpp
+         Camera.cpp
+         BRDF.cpp
+         Generating Code...
        Link:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\Debug\RayTracerGit.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\/FreeImage" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib FreeImage.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\Debug\RayTracerGit.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Nathan's Stuff\My Documents\GitHub\RayTracer\Debug\RayTracerGit.lib" /MACHINE:X86 Debug\BRDF.obj
          Debug\Camera.obj
@@ -25,8 +53,8 @@
          Debug\Sphere.obj
          Debug\Vector.obj
          RayTracerGit.vcxproj -> D:\Nathan's Stuff\My Documents\GitHub\RayTracer\Debug\RayTracerGit.exe
-     1>Done Building Project "D:\Nathan's Stuff\My Documents\GitHub\RayTracer\RayTracerGit.vcxproj" (Build target(s)).
+     1>Done Building Project "D:\Nathan's Stuff\My Documents\GitHub\RayTracer\RayTracerGit.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.48
+Time Elapsed 00:00:01.55
