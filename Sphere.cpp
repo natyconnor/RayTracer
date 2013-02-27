@@ -3,8 +3,8 @@
 
 Sphere::Sphere(void)
 {
-	center = Point(0, 0, -5);
-	radius = 2.0;
+	center = Point(0, 0, -2);
+	radius = 1.0;
 }
 
 Sphere::Sphere(Point cen, float rad)
@@ -110,7 +110,7 @@ bool Sphere::intersectP(Ray& ray){
 }
 
 void Sphere::getBRDF(LocalGeo& local, BRDF* brdf){
-	*brdf = BRDF(Color(1, 0, 0), Color(1, 1, 1), Color(), Color());
+	*brdf = BRDF(Color(1, 0, 0), Color(1, 1, 1), Color(0.2,0,0), Color());
 }
 
 

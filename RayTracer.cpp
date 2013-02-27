@@ -11,7 +11,7 @@ RayTracer::RayTracer(void)
 RayTracer::RayTracer(int thresh, Point eye){
 	threshold = thresh;
 	prims.push_back(Sphere());
-	lights.push_back(PointLight(Point(2,2,2), Color(1,1,1)));
+	lights.push_back(PointLight(Point(-1.5,0,-2), Color(1,1,1)));
 	eyePos = eye;
 }
 
@@ -66,5 +66,5 @@ Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor){
 	//dot product between normal and light vectors
 	float diff = point.norm.dot(lray.dir);
 
-	return (lcolor * brdf.kd) * max(diff,0.0f);
+	return brdf.ka + (lcolor * brdf.kd) * max(diff,0.0f);
 }
