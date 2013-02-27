@@ -3,7 +3,7 @@
 
 Sphere::Sphere(void)
 {
-	center = Point(0, 0, -3);
+	center = Point(0, 0, -5);
 	radius = 2.0;
 }
 
@@ -81,6 +81,27 @@ bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
 		t0 = q / a;
 		t1 = c / q;
 	}
+
+	//get closer intersection to camera
+	if(t0 < t1){
+		if(t0 < ray.t_min || t0 > ray.t_max)
+			return false;
+		else{
+			*thit = t0;
+			Point intersect = ray.pos + (r*t0);
+			//calculate normal
+			Normal normal = Normal((intersect-center).x, (intersect-center).y, (intersect-center).z);
+			*local = LocalGeo(intersect, normal);
+		}
+	}else{
+		if(t1 < ray.t_min || t1 > ray.t_max)
+			return false;
+		*thit = t1;
+		Point intersect = ray.pos + (r*t0);
+		//calculate normal
+		Normal normal = Normal((intersect-center).x, (intersect-center).y, (intersect-center).z);
+		*local = LocalGeo(intersect, normal);
+	}
 	return true;
 }
 
@@ -89,7 +110,7 @@ bool Sphere::intersectP(Ray& ray){
 }
 
 void Sphere::getBRDF(LocalGeo& local, BRDF* brdf){
-	*brdf = BRDF();
+	*brdf = BRDF(Color(1, 0, 0), Color(1, 1, 1), Color(), Color());
 }
 
 

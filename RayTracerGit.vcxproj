@@ -79,9 +79,11 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Film.cpp" />
     <ClCompile Include="Intersection.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="LocalGeo.cpp" />
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RayTracer.cpp" />
@@ -96,8 +98,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="freeimage\FreeImage.h" />
     <ClInclude Include="Intersection.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LocalGeo.h" />
     <ClInclude Include="Normal.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayTracer.h" />

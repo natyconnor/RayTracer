@@ -34,12 +34,16 @@ Vector Vector::operator/(float scalar){
 }
 
 void Vector::normalize(){
-	float mag = sqrt((x*x) + (y*y) + (z*z));
+	float mag = magnitude();
 	if(mag != 0.0){
 		x = x / mag;
 		y = y / mag;
 		z = z / mag;
 	}
+}
+
+float Vector::magnitude(){
+	return sqrt((x*x) + (y*y) + (z*z));
 }
 
 float Vector::dot(Vector other){

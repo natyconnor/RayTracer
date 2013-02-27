@@ -1,6 +1,7 @@
 #ifndef NORMAL
 #define NORMAL
 
+#include "Vector.h"
 class Normal
 {
 public:
@@ -12,6 +13,9 @@ public:
 
 	Normal operator + (Normal);
 	Normal operator - (Normal);
+	void normalize();
+
+	float dot(Vector other);
 };
 
 #endif

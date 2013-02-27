@@ -57,7 +57,7 @@ inline Scene::Scene(Point eyePos, Point LL, Point UL, Point UR, Point LR, int he
 
 	ray = Ray();
 	camera = Camera(eyePos, myLL, myUL, myUR, myLR, myHeight, myWidth);
-	raytracer = RayTracer();
+	raytracer = RayTracer(10, myEyePos);
 }
 
 inline void Scene::render(){
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 		cout << "Image_successfully_saved" << endl;*/
 		
 	cout << "Starting..." << endl;
-	Scene s = Scene(Point(0,0,0), Point(-1,-1, -1), Point(-1, 1, -1), Point(1, 1, -1), Point(1,-1, -1), 100, 100);
+	Scene s = Scene(Point(0,0,0), Point(-1,-1, -1), Point(-1, 1, -1), Point(1, 1, -1), Point(1,-1, -1), 500, 500);
 	s.render();
 	return 0;
 }

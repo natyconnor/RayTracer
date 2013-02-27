@@ -16,6 +16,7 @@ public:
 	Vector operator / (float);
 
 	void normalize();
+	float magnitude();
 	float dot(Vector other);
 };
 
