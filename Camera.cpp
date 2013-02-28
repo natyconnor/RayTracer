@@ -28,7 +28,7 @@ void Camera::generateRay(Sample& sample, Ray* ray){
 	float normalY = sample.y / myHeight;
 
 	float remapX = 2 * normalX - 1;
-	float remapY = 1 - 2 * normalY;
+	float remapY = 2 * normalY - 1;
 
 	//account for aspect ratio and dof; not sure if needed
 	/*

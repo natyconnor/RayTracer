@@ -14,9 +14,10 @@ class Sphere: public Primitive
 public:
 	Point center;
 	float radius;
+	BRDF myBRDF;
 
 	Sphere(void);
-	Sphere(Point cen, float rad);
+	Sphere(Point cen, float rad, BRDF brdf);
 	~Sphere(void);
 
 	bool intersect(Ray& ray, float* thit, LocalGeo* local);

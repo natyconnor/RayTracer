@@ -7,10 +7,11 @@ Sphere::Sphere(void)
 	radius = 1.0;
 }
 
-Sphere::Sphere(Point cen, float rad)
+Sphere::Sphere(Point cen, float rad, BRDF brdf)
 {
 	center = cen;
 	radius = rad;
+	myBRDF = brdf;
 }
 
 bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
@@ -97,7 +98,7 @@ bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
 		if(t1 < ray.t_min || t1 > ray.t_max)
 			return false;
 		*thit = t1;
-		Point intersect = ray.pos + (r*t0);
+		Point intersect = ray.pos + (r*t1);
 		//calculate normal
 		Normal normal = Normal((intersect-center).x, (intersect-center).y, (intersect-center).z);
 		*local = LocalGeo(intersect, normal);
@@ -106,11 +107,13 @@ bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
 }
 
 bool Sphere::intersectP(Ray& ray){
-	return false;
+	float dummyT;
+	LocalGeo dummyGeo;
+	return intersect(ray, &dummyT, &dummyGeo);
 }
 
 void Sphere::getBRDF(LocalGeo& local, BRDF* brdf){
-	*brdf = BRDF(Color(1, 0, 0), Color(1, 1, 1), Color(0.2,0,0), Color());
+	*brdf = myBRDF;
 }
 
 

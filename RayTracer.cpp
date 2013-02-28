@@ -10,8 +10,9 @@ RayTracer::RayTracer(void)
 
 RayTracer::RayTracer(int thresh, Point eye){
 	threshold = thresh;
-	prims.push_back(Sphere());
-	lights.push_back(PointLight(Point(-1.5,0,-2), Color(1,1,1)));
+	prims.push_back(Sphere(Point(0.4,0.4,-2), 0.3, BRDF(Color(1,0,0), Color(1,1,1), Color(0.05,0,0),Color())));
+	prims.push_back(Sphere(Point(-0.5,-0.5,-3), 0.7, BRDF(Color(0,1,0), Color(1,1,1), Color(0,0.05,0),Color())));
+	lights.push_back(PointLight(Point(10,10,0), Color(1,1,1)));
 	eyePos = eye;
 }
 
@@ -35,15 +36,14 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	//loop through all primitives
 	for(int i = 0; i < prims.size(); i++){
 		//if intersection
-		if(!prims.at(i).intersect(ray, &thit, &intersection)){
-			return;
-		}
-		//keep track of the closest intersection to the camera, since that is what we will draw
-		float dist = (intersection.pos - eyePos).magnitude();
-		if(dist < minDistance){
-			minDistance = dist;
-			minPrimIndex = i;
-			closestInter = intersection;
+		if(prims.at(i).intersect(ray, &thit, &intersection)){
+			//keep track of the closest intersection to the camera, since that is what we will draw
+			//float dist = (intersection.pos - eyePos).magnitude();
+			if(thit < minDistance){
+				minDistance = thit;
+				minPrimIndex = i;
+				closestInter = intersection;
+			}
 		}
 	}
 	//compute shading
@@ -53,12 +53,25 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		Color lcolor = Color();
 		BRDF brdf = BRDF();
 		closest.getBRDF(closestInter, &brdf);
+		*color = brdf.ka;
+
 		for(int i = 0; i < lights.size(); i++){
 			lights.at(i).generateLightRay(closestInter, &lray, &lcolor);
 
-			//calculate Phong stuff
-			*color = *color + shading(intersection, brdf, lray, lcolor);
-			//*color = Color(1,0,0);
+			//check for intersection with primitives for shadows
+			bool isShadow = false;
+			for(int j = 0; j < prims.size(); j++){
+				if(j != minPrimIndex && prims.at(j).intersectP(lray)){
+					isShadow = true;
+					break;
+				}
+			}
+
+			if(!isShadow){
+				//calculate Phong stuff
+				*color = *color + shading(closestInter, brdf, lray, lcolor);
+				//*color = Color(1,0,0);
+			}
 		}
 	}
 }
@@ -69,11 +82,11 @@ Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor){
 	float diff = point.norm.dot(lray.dir);
 
 	//specular component
-	Vector v = point.pos - eyePos;
+	Vector v = eyePos - point.pos;
 	v.normalize();
 	Vector r = (lray.dir * -1) + (point.norm * (2 * diff));
 	r.normalize();
 	float spec = r.dot(v);
 
-	return brdf.ka + (lcolor * brdf.kd) * max(diff,0.0f) + (lcolor * brdf.ks) * pow(max(spec,0.0f),20);
+	return (lcolor * brdf.kd) * max(diff,0.0f) + (lcolor * brdf.ks) * pow(max(spec,0.0f),5);
 }
