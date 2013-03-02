@@ -1,6 +1,8 @@
 #ifndef VECTOR
 #define VECTOR
 
+//#include "Normal.h"
+
 class Vector
 {
 public:
@@ -18,6 +20,7 @@ public:
 	void normalize();
 	float magnitude();
 	float dot(Vector other);
+	//Normal cross(Vector other);
 };
 
 

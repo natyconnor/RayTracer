@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
 		cout << "Image_successfully_saved" << endl;*/
 		
 	cout << "Starting..." << endl;
-	Scene s = Scene(Point(0,0,0), Point(-1,-1, -1), Point(-1, 1, -1), Point(1, 1, -1), Point(1,-1, -1), 500, 500);
+	Scene s = Scene(Point(0,0,0), Point(-1,-1, -1), Point(-1, 1, -1), Point(1, 1, -1), Point(1,-1, -1), 1000, 1000);
 	s.render();
 	return 0;
 }

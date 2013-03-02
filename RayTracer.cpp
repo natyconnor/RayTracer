@@ -12,7 +12,9 @@ RayTracer::RayTracer(int thresh, Point eye){
 	threshold = thresh;
 	prims.push_back(Sphere(Point(0.4,0.4,-2), 0.3, BRDF(Color(1,0,0), Color(1,1,1), Color(0.05,0,0),Color())));
 	prims.push_back(Sphere(Point(-0.5,-0.5,-3), 0.7, BRDF(Color(0,1,0), Color(1,1,1), Color(0,0.05,0),Color())));
+	prims.push_back(Sphere(Point(-0.7,-0.7,-2), 0.2, BRDF(Color(0,0.4,0.7), Color(0.8,0.8,1), Color(0,0,0.05),Color())));
 	lights.push_back(PointLight(Point(10,10,0), Color(1,1,1)));
+	lights.push_back(PointLight(Point(-5,-3,0), Color(1,1,1)));
 	eyePos = eye;
 }
 

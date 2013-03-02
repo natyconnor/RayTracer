@@ -50,6 +50,10 @@ float Vector::dot(Vector other){
 	return x * other.x + y * other.y + z * other.z;
 }
 
+//Normal Vector::cross(Vector other){
+//	return Normal(y*other.z - z*other.y, z*other.x - x*other.z, x*other.y - y*other.x);
+//}
+
 Vector::~Vector(void)
 {
 }
