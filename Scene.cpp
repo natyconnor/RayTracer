@@ -57,13 +57,14 @@ inline Scene::Scene(Point eyePos, Point LL, Point UL, Point UR, Point LR, int he
 
 	ray = Ray();
 	camera = Camera(eyePos, myLL, myUL, myUR, myLR, myHeight, myWidth);
-	raytracer = RayTracer(100, myEyePos);
+	raytracer = RayTracer(2, myEyePos);
 }
 
 inline void Scene::render(){
 	while(sampler.getSample(&sample)){
+		color = Color();
 		camera.generateRay(sample, &ray);
-		raytracer.trace(ray, 50, &color);
+		raytracer.trace(ray, 1, &color);
 		film.commit(sample, color);
 	}
 	film.writeImage();
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]){
 		cout << "Image_successfully_saved" << endl;*/
 		
 	cout << "Starting..." << endl;
-	Scene s = Scene(Point(0,0,0), Point(-1,-1, -3), Point(-1, 1, -3), Point(1, 1, -3), Point(1,-1, -3), 1000, 1000);
+	Scene s = Scene(Point(0,0,0), Point(-1,-1, -3), Point(-1, 1, -3), Point(1, 1, -3), Point(1,-1, -3), 500, 500);
 	s.render();
 	return 0;
 }

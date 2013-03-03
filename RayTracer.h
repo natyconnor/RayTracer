@@ -7,9 +7,9 @@
 #include "Sphere.h"
 #include "PointLight.h"
 #include "Triangle.h"
+#include "DirectionalLight.h"
 
 #include <vector>
-#include <list>
 
 class RayTracer
 {
@@ -17,8 +17,7 @@ public:
 	int threshold;
 
 	vector<Primitive*> prims;
-	//list<
-	vector<PointLight> lights;
+	vector<Light*> lights;
 	Point eyePos;
 
 	RayTracer(void);

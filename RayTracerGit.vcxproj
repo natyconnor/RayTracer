@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\DirectionalLight.cpp" />
     <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\DirectionalLight.h" />
     <ClInclude Include="BRDF.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="freeimage\FreeImage.h" />

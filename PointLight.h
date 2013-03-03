@@ -5,8 +5,9 @@
 #include "Color.cpp"
 #include "LocalGeo.h"
 #include "Ray.h"
+#include "Light.h"
 
-class PointLight
+class PointLight : public Light
 {
 public:
 	Point myPos;

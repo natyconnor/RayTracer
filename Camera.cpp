@@ -39,7 +39,7 @@ void Camera::generateRay(Sample& sample, Ray* ray){
 	float cameraY = (1 - 2 * remapY) * tan(alpha/2);
 	*/
 
-	Point camSpace = Point(remapX, remapY, -1);
+	Point camSpace = Point(remapX, remapY, -3);
 	Vector dir = camSpace - myPos;
 	dir.normalize();
 
