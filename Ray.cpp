@@ -15,6 +15,7 @@ Ray::Ray(Point position, Vector direction, float min, float max)
 	dir = direction;
 	t_min = min;
 	t_max = max;
+	dir.normalize();
 }
 
 

@@ -35,3 +35,7 @@ Vector Normal::operator*(float scalar){
 float Normal::dot(Vector other){
 	return x * other.x + y * other.y + z * other.z;
 }
+
+float Normal::dot(Point other){
+	return x * other.x + y * other.y + z * other.z;
+}

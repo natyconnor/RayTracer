@@ -20,7 +20,7 @@ public:
 	void normalize();
 	float magnitude();
 	float dot(Vector other);
-	//Normal cross(Vector other);
+	Vector cross(Vector other);
 };
 
 

@@ -2,6 +2,8 @@
 #define NORMAL
 
 #include "Vector.h"
+#include "Point.cpp"
+
 class Normal
 {
 public:
@@ -17,6 +19,7 @@ public:
 	void normalize();
 
 	float dot(Vector other);
+	float dot(Point other);
 };
 
 #endif

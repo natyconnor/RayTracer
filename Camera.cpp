@@ -43,6 +43,6 @@ void Camera::generateRay(Sample& sample, Ray* ray){
 	Vector dir = camSpace - myPos;
 	dir.normalize();
 
-	*ray = Ray(myPos, dir, 1, 10);
+	*ray = Ray(myPos, dir, 1, 100);
 }
 

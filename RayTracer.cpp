@@ -3,17 +3,24 @@
 
 RayTracer::RayTracer(void)
 {
-	threshold = 10;
-	prims.push_back(Sphere());
+	threshold = 100;
+	//prims.push_back(Sphere());
 	eyePos = Point(0, 0, 0);
 }
 
 RayTracer::RayTracer(int thresh, Point eye){
 	threshold = thresh;
-	prims.push_back(Sphere(Point(0.4,0.4,-2), 0.3, BRDF(Color(1,0,0), Color(1,1,1), Color(0.05,0,0),Color())));
-	prims.push_back(Sphere(Point(-0.5,-0.5,-3), 0.7, BRDF(Color(0,1,0), Color(1,1,1), Color(0,0.05,0),Color())));
-	prims.push_back(Sphere(Point(-0.7,-0.7,-2), 0.2, BRDF(Color(0,0.4,0.7), Color(0.8,0.8,1), Color(0,0,0.05),Color())));
-	lights.push_back(PointLight(Point(10,10,0), Color(1,1,1)));
+	//prims.push_back(Sphere(Point(0.4,0.4,-2), 0.3, BRDF(Color(1,0,0), Color(1,1,1), Color(0.05,0,0),Color())));
+	//prims.push_back(Sphere(Point(-0.5,-0.5,-3), 0.7, BRDF(Color(0,1,0), Color(1,1,1), Color(0,0.05,0),Color())));
+	//prims.push_back(Sphere(Point(-0.7,-0.7,-2), 0.2, BRDF(Color(0,0.4,0.7), Color(0.8,0.8,1), Color(0,0,0.05),Color())));
+
+	Sphere* sph = new Sphere(Point(0,0,-20), 3.0, BRDF(Color(1,0,1), Color(1,1,1), Color(0.1,0.1,0.1), Color()));
+	Triangle* tri = new Triangle(Point(0,8,-25), Point(-5,-4,-25), Point(6,-1,-22), BRDF(Color(0,0.4,0.7), Color(0.8,0.8,1), Color(0,0,0.05),Color()));
+	//prims.push_back(Triangle(Point(5,8,-17), Point(1,4,-20), Point(6,-1,-20), BRDF(Color(0,0.4,0.7), Color(0.8,0.8,1), Color(0,0,0.05),Color())));
+	prims.push_back(tri);
+	prims.push_back(sph);
+
+	//lights.push_back(PointLight(Point(10,10,0), Color(1,1,1)));
 	lights.push_back(PointLight(Point(-5,-3,0), Color(1,1,1)));
 	eyePos = eye;
 }
@@ -27,6 +34,7 @@ RayTracer::~RayTracer(void)
 void RayTracer::trace(Ray& ray, int depth, Color* color){
 	if(depth > threshold){
 		*color = Color();
+		return;
 	}
 
 	*color = Color();
@@ -34,27 +42,28 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	LocalGeo intersection;
 	LocalGeo closestInter;
 	float minDistance = 99999;
-	int minPrimIndex = -1;
+	Primitive* closest = 0;
+
 	//loop through all primitives
-	for(int i = 0; i < prims.size(); i++){
+	for(vector<Primitive*>::iterator iter = prims.begin(); iter != prims.end(); ++iter){
+		Primitive* s = *iter;
 		//if intersection
-		if(prims.at(i).intersect(ray, &thit, &intersection)){
+		if((*s).intersect(ray, &thit, &intersection)){
 			//keep track of the closest intersection to the camera, since that is what we will draw
 			//float dist = (intersection.pos - eyePos).magnitude();
 			if(thit < minDistance){
 				minDistance = thit;
-				minPrimIndex = i;
+				closest = s;
 				closestInter = intersection;
 			}
 		}
 	}
 	//compute shading
-	if(minPrimIndex != -1){
-		Sphere closest = prims.at(minPrimIndex);
+	if(minDistance != 99999){
 		Ray lray = Ray();
 		Color lcolor = Color();
 		BRDF brdf = BRDF();
-		closest.getBRDF(closestInter, &brdf);
+		(*closest).getBRDF(closestInter, &brdf);
 		*color = brdf.ka;
 
 		for(int i = 0; i < lights.size(); i++){
@@ -62,8 +71,9 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 
 			//check for intersection with primitives for shadows
 			bool isShadow = false;
-			for(int j = 0; j < prims.size(); j++){
-				if(j != minPrimIndex && prims.at(j).intersectP(lray)){
+			for(vector<Primitive*>::iterator iter = prims.begin(); iter != prims.end(); ++iter){
+				Primitive* s = *iter;
+				if((*s).intersectP(lray)){
 					isShadow = true;
 					break;
 				}

@@ -6,16 +6,18 @@
 #include "Primitive.h"
 #include "Sphere.h"
 #include "PointLight.h"
+#include "Triangle.h"
 
 #include <vector>
-
+#include <list>
 
 class RayTracer
 {
 public:
 	int threshold;
 
-	vector<Sphere> prims;
+	vector<Primitive*> prims;
+	//list<
 	vector<PointLight> lights;
 	Point eyePos;
 
