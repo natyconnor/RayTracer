@@ -63,21 +63,22 @@ void Camera::generateRay(Sample& sample, Ray* ray){
     v.normalize();
     //cout << v.x << " " << v.y << " " << v.z << endl; //0 1 0
  
-    Vector xinc = u*2*tan(fov*M_PI/180/2)/pixWidth;
+    Vector xinc = u*2*tan(fov*M_PI/180/2)/(float)pixWidth;
     //cout << xinc.x << " " << xinc.y << " " << xinc.z << endl;
-    Vector yinc = v*2*tan(fov*M_PI/180/2)/pixHeight;
+    Vector yinc = v*2*tan(fov*M_PI/180/2)/(float)pixHeight;
     //cout << yinc.x << " " << yinc.y << " " << yinc.z << endl;
- 
-    Vector vec = dir + yinc*0.5*(2*sample.y+1-pixHeight) + xinc*0.5*(2*sample.x+1-pixWidth);
+
+    Vector vec = dir + yinc*0.5*(2*sample.y+1-(float)pixHeight) + xinc*0.5*(2*sample.x+1-(float)pixWidth);
     //cout << vec.x << " " << vec.y << " " << vec.z << endl;
-    if (pixWidth > pixHeight)
+    /*if (pixWidth > pixHeight)
     {
             vec.x = vec.x*((float)pixWidth/pixHeight);
     }
 	else if(pixHeight > pixWidth)
     {
             vec.y = vec.y*((float)pixHeight/pixWidth);
-    }
+    }*/
+	vec.x = vec.x*pixWidth/pixHeight;
     vec.normalize();
     //cout << vec.x << " " << vec.y << " " << vec.z << endl;
  

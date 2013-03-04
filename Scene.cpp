@@ -148,16 +148,17 @@ void Scene::loadScene(std::string file) {
 
         Point lookat = Point(atof(splitline[4].c_str()), atof(splitline[5].c_str()), atof(splitline[6].c_str()));
         Vector up = Vector(atof(splitline[7].c_str()), atof(splitline[8].c_str()), atof(splitline[9].c_str()));
-		up.normalize();
+		//up.normalize();
 
         float fov = atof(splitline[10].c_str());
-		float r = width/height;
+		
+		/*float r = width/height;
 
 		float imgPlaneHeight = 2 * tan(fov/2*M_PI/180/2);
 		float fovh = 2 * atan(imgPlaneHeight * r /2);
 		float imgPlaneWidth = 2 * tan(fovh/2);
 
-		/* Trying to find 4 corners
+		 Trying to find 4 corners
 		Vector dir = lookat - lookfrom; //also normal to image plane
 		dir.normalize();
 		Point center = lookfrom + dir;
