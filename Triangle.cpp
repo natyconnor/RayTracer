@@ -26,6 +26,7 @@ Normal Triangle::normal()
 	//can't implement a cross product function in Vector class that returns a Normal
 	//probably because Vector and Normal will include each other
 	//cross product between vec1 and vec2
+
 	return Normal(vec1.y*vec2.z - vec1.z*vec2.y, vec1.z*vec2.x - vec1.x*vec2.z, vec1.x*vec2.y - vec1.y*vec2.x);
 }
 
@@ -40,7 +41,7 @@ bool Triangle::intersect(Ray& ray, float* thit, LocalGeo* local){
 	float d = n.dot(v1);
 
 	//with equation of ray and equation of plane, we can calculate thit
-	float t = (n.dot(ray.pos) + d) / (n.dot(ray.dir));
+	float t = -(n.dot(ray.pos) + d) / (n.dot(ray.dir));
 
 	//check if triangle is not within ray's length
 	if(t < ray.t_min || t > ray.t_max)

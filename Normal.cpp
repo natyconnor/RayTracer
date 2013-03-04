@@ -21,7 +21,7 @@ Normal::~Normal(void)
 
 void Normal::normalize(){
 	float mag = sqrt((x*x) + (y*y) + (z*z));
-	if(mag != 0.0){
+	if(mag != 0.0f){
 		x = x / mag;
 		y = y / mag;
 		z = z / mag;

@@ -11,20 +11,20 @@ RayTracer::RayTracer(void)
 RayTracer::RayTracer(int thresh, Point eye){
 	threshold = thresh;
 
-	Sphere* sph1 = new Sphere(Point(0,0,-20), 3.0, BRDF(Color(1,0,1), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
-	Sphere* sph2 = new Sphere(Point(-2,2,-15), 1.0, BRDF(Color(1,1,0), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
-	Sphere* sph3 = new Sphere(Point(-2,-2,-15), 1.0, BRDF(Color(0,1,1), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
-	Triangle* tri = new Triangle(Point(5,5,-17), Point(1,4,-20), Point(6,-1,-20), BRDF(Color(0.1,0.1,0.1), Color(1,1,1), Color(0.1,0.1,0.1), Color(1,1,1), 50));
+	//Sphere* sph1 = new Sphere(Point(0,0,-20), 3.0, BRDF(Color(1,0,1), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
+	//Sphere* sph2 = new Sphere(Point(-2,2,-15), 1.0, BRDF(Color(1,1,0), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
+	//Sphere* sph3 = new Sphere(Point(-2,-2,-15), 1.0, BRDF(Color(0,1,1), Color(1,1,1), Color(0.1,0.1,0.1), Color(), 50));
+	//Triangle* tri = new Triangle(Point(5,5,-17), Point(1,4,-20), Point(6,-1,-20), BRDF(Color(0.1,0.1,0.1), Color(), Color(0.1,0.1,0.1), Color(1,1,1), 50));
 	
-	prims.push_back(tri);
-	prims.push_back(sph1);
-	prims.push_back(sph2);
-	prims.push_back(sph3);
+	//prims.push_back(tri);
+	//prims.push_back(sph1);
+	//prims.push_back(sph2);
+	//prims.push_back(sph3);
 
-	DirectionalLight* dl1 = new DirectionalLight(Vector(0.57735027, -0.57735027, -0.57735027), Color(1,1,1));
-	DirectionalLight* dl2 = new DirectionalLight(Vector(0.57735027, 0.57735027, -0.57735027), Color(0,0,1));
-	lights.push_back(dl1);
-	lights.push_back(dl2);
+	//DirectionalLight* dl1 = new DirectionalLight(Vector(0.57735027, -0.57735027, -0.57735027), Color(1,1,1));
+	//DirectionalLight* dl2 = new DirectionalLight(Vector(0.57735027, 0.57735027, -0.57735027), Color(0,0,1));
+	//lights.push_back(dl1);
+	//lights.push_back(dl2);
 	eyePos = eye;
 }
 
@@ -68,9 +68,9 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		*color = brdf.ka;
 
 
-		Vector rDir = (ray.dir * -1) + (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
+		Vector rDir = ray.dir - (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
 		rDir.normalize();
-		Ray r = Ray(intersection.pos, rDir, 0.5, ray.t_max);
+		Ray r = Ray(intersection.pos, rDir, 0.1, ray.t_max);
 
 		for(vector<Light*>::iterator lIter = lights.begin(); lIter != lights.end(); ++ lIter){
 			Light* l = *lIter;
@@ -88,7 +88,10 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 
 			if(!isShadow){
 				Color refColor = Color();
-				trace(r, depth+1, &refColor);
+
+				//make recursive call if there is any reflectivity
+				if(brdf.kr.r != 0 && brdf.kr.g != 0 && brdf.kr.b != 0)
+					trace(r, depth+1, &refColor);
 				//calculate Phong stuff
 				*color = *color + shading(closestInter, brdf, lray, lcolor) + brdf.kr*refColor;
 				//*color = Color(1,0,0);
@@ -112,5 +115,13 @@ Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor){
 	r.normalize();
 	float spec = r.dot(v);
 
-	return (lcolor * brdf.kd) * max(diff,0.0f) + (lcolor * brdf.ks) * pow(max(spec,0.0f),brdf.sp) + brdf.kr;
+	return (lcolor * brdf.kd) * max(diff,0.0f) + (lcolor * brdf.ks) * pow(max(spec,0.0f),brdf.sp);
+}
+
+void RayTracer::addPrim(Primitive* prim){
+	prims.push_back(prim);
+}
+
+void RayTracer::addLight(Light* l){
+	lights.push_back(l);
 }

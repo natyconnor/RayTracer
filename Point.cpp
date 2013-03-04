@@ -38,4 +38,5 @@ inline Point Point::operator+(Vector other){
 }
 
 
+
 #endif

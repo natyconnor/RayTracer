@@ -26,6 +26,8 @@ public:
 
 	void trace(Ray& ray, int depth, Color* color);
 	Color shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor);
+	void addPrim(Primitive* prim);
+	void addLight(Light* l);
 };
 
 #endif
