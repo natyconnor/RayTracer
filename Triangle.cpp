@@ -41,7 +41,7 @@ bool Triangle::intersect(Ray& ray, float* thit, LocalGeo* local){
 	float d = n.dot(v1);
 
 	//with equation of ray and equation of plane, we can calculate thit
-	float t = -(n.dot(ray.pos) + d) / (n.dot(ray.dir));
+	float t = (n.dot(ray.pos) + d) / (n.dot(ray.dir));
 
 	//check if triangle is not within ray's length
 	if(t < ray.t_min || t > ray.t_max)

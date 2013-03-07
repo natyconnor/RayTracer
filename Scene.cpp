@@ -371,6 +371,16 @@ void Scene::loadScene(std::string file) {
       else if(!splitline[0].compare("shininess")) {
         currentSP = atof(splitline[1].c_str());
       }
+
+	  //reflection r g b
+	  // specifies the reflection color of the surface
+	  else if(!splitline[0].compare("reflection")) {
+		  float r = atof(splitline[1].c_str());
+		  float g = atof(splitline[2].c_str());
+		  float b = atof(splitline[3].c_str());
+		  // Update current properties
+		  currentKR = Color(r,g,b);
+	  }
       //emission r g b
       //  gives the emissive color of the surface.
       else if(!splitline[0].compare("emission")) {

@@ -67,7 +67,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		(*closest).getBRDF(closestInter, &brdf);
 		*color = brdf.ka;
 
-
+		//Reflection info. Need r vector like in specular. Find way to send this to shading?
 		Vector rDir = ray.dir - (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
 		rDir.normalize();
 		Ray r = Ray(intersection.pos, rDir, 0.1, ray.t_max);
@@ -93,7 +93,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 				if(brdf.kr.r != 0 && brdf.kr.g != 0 && brdf.kr.b != 0)
 					trace(r, depth+1, &refColor);
 				//calculate Phong stuff
-				*color = *color + shading(closestInter, brdf, lray, lcolor) + brdf.kr*refColor;
+				*color = *color + shading(closestInter, brdf, ray, lray, lcolor) + brdf.kr*refColor;
 				//*color = Color(1,0,0);
 			}
 		}
@@ -103,13 +103,13 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	}
 }
 
-Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray lray, Color lcolor){
+Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray origRay, Ray lray, Color lcolor){
 	//diffuse component
 	//dot product between normal and light vectors
 	float diff = point.norm.dot(lray.dir);
 
 	//specular component
-	Vector v = eyePos - point.pos;
+	Vector v = origRay.pos - point.pos; //for reflections, eye needs to be point of where first ray came from
 	v.normalize();
 	Vector r = (lray.dir * -1) + (point.norm * (2 * diff));
 	r.normalize();

@@ -91,17 +91,21 @@ bool Sphere::intersect(Ray& ray, float* thit, LocalGeo* local){
 			*thit = t0;
 			Point intersect = ray.pos + (r*t0);
 			//calculate normal
-			Normal normal = Normal((intersect-center).x, (intersect-center).y, (intersect-center).z);
+			Vector normv = intersect-center;
+			Normal normal = Normal(normv.x, normv.y, normv.z);
 			*local = LocalGeo(intersect, normal);
 		}
 	}else{
 		if(t1 < ray.t_min || t1 > ray.t_max)
 			return false;
-		*thit = t1;
-		Point intersect = ray.pos + (r*t1);
-		//calculate normal
-		Normal normal = Normal((intersect-center).x, (intersect-center).y, (intersect-center).z);
-		*local = LocalGeo(intersect, normal);
+		else{
+			*thit = t1;
+			Point intersect = ray.pos + (r*t1);
+			//calculate normal
+			Vector normv = intersect-center;
+			Normal normal = Normal(normv.x, normv.y, normv.z);
+			*local = LocalGeo(intersect, normal);
+		}
 	}
 	return true;
 }
