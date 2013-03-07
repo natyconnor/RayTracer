@@ -74,6 +74,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransSphere.cpp" />
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransTriangle.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="BRDF.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -97,6 +100,9 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransSphere.h" />
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransTriangle.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="BRDF.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectionalLight.h" />

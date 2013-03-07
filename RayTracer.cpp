@@ -45,6 +45,10 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	float minDistance = 99999;
 	Primitive* closest = 0;
 
+	//transorms
+	bool transformed = false;
+	vector<Transform> transforms;
+
 	//loop through all primitives
 	for(vector<Primitive*>::iterator iter = prims.begin(); iter != prims.end(); ++iter){
 		Primitive* s = *iter;
@@ -56,11 +60,41 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 				minDistance = thit;
 				closest = s;
 				closestInter = intersection;
+
+				//get transforms of new closest object
+				if((*s).isTransformed() == true) {
+					transformed = true;
+					transforms = (*s).getTrans();
+				} else {
+					transformed = false;
+				}
 			}
 		}
 	}
 	//compute shading
 	if(minDistance != 99999){
+
+		if(transformed == true){
+			for (int i = 0 ; i < transforms.size(); i++)
+			{
+				//for each matrix
+				for (int j = 0; j < transforms.at(i).transforms.size(); j++)
+				{
+					Matrix m = transforms.at(i).transforms.at(j);
+					if (m.mat[0][0] == 1 && m.mat[1][1] == 1 && m.mat[2][2] == 1) //translate
+					{
+						ray.pos = m*ray.pos;
+						//ray.dir = m*ray.dir;
+					}
+					else //scale
+					{
+						ray.pos = m*ray.pos;
+						ray.dir = m*ray.dir;
+					}
+				}
+			}
+		}
+
 		Ray lray = Ray();
 		Color lcolor = Color();
 		BRDF brdf = BRDF();
