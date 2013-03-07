@@ -82,6 +82,7 @@
     <ClCompile Include="Intersection.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LocalGeo.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Normal.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Intersection.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LocalGeo.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Normal.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Primitive.h" />
