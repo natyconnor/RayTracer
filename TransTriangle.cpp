@@ -101,6 +101,31 @@ bool TransTriangle::intersect(Ray& ray, float *thit, LocalGeo* local)
 	}
 
 	*thit = t;
+	
+
+	for (int i = 0 ; i < transforms->size(); i++)
+		{
+			//for each matrix
+			for (int j = transforms->at(i).transforms.size()-1; j >= 0; j--)
+			//for(int j = 0; j < transforms->at(i).transforms.size(); j++)
+			{
+				Matrix m = transforms->at(i).transforms.at(j);
+				Matrix inverse = transforms->at(i).nTransforms.at(j);
+
+				p = m * p;
+				if (!m.type.compare("scale")){
+					m.transpose();
+					n = m*n;
+					//p = m*p;
+					m.transpose();
+				}
+				else if(!m.type.compare("rotate")){
+					n = inverse*n;
+				}
+			}
+		}
+
+	n.normalize();
 	*local = LocalGeo(p, n);
 
 	
@@ -115,6 +140,12 @@ bool TransTriangle::intersect(Ray& ray, float *thit, LocalGeo* local)
 
 }
 
+
+bool TransTriangle::intersectP(Ray& ray){
+	float dummyt;
+	LocalGeo dummyGeo;
+	return intersect(ray, &dummyt, &dummyGeo);
+}
 bool TransTriangle::isTransformed()
 {
 	return true;

@@ -51,8 +51,31 @@ bool TransSphere::intersect(Ray& ray, float *thit, LocalGeo* local)
 	//cout << t0 << " " << t1 << endl;
 	if (t0 > ray.t_min && t1 > ray.t_min && t0 < ray.t_max && t1 < ray.t_max)
 	{
-		Vector n = ray.pos + ray.dir*min(t0, t1) - center;
-		*local = LocalGeo(ray.pos + ray.dir*min(t0,t1),  Normal(n.x, n.y, n.z));
+		Point point = ray.pos + ray.dir*min(t0,t1);
+		Vector n = point - center;
+
+		for (int i = 0 ; i < transforms->size(); i++)
+		{
+			//for each matrix
+			for (int j = transforms->at(i).transforms.size()-1; j >= 0; j--)
+			//for(int j = 0; j < transforms->at(i).transforms.size(); j++)
+			{
+				Matrix m = transforms->at(i).transforms.at(j);
+				Matrix inverse = transforms->at(i).nTransforms.at(j);
+
+				point = inverse*point;
+				if (!m.type.compare("scale")){
+					m.transpose();
+					n = m*n;
+					m.transpose();
+					//point = m*point;
+				}
+				else if(!m.type.compare("rotate")){
+					n = inverse*n;
+				}
+			}
+		}
+		*local = LocalGeo(point,  Normal(n.x, n.y, n.z));
 		*thit = min(t0,t1);
 		ray = newr;
 		return true;
@@ -114,11 +137,17 @@ bool TransSphere::intersect(Ray& ray, float *thit, LocalGeo* local)
 	}*/
 
 
-	ray = newr;
+	//ray = newr;
 	return true;
 	//bool returnVal = Sphere::intersect(ray, thit, local);
 	//if(returnVal == true)
 		//cout << "Intersect!!" << endl;
+}
+
+bool TransSphere::intersectP(Ray& ray){
+	float dummyt;
+	LocalGeo dummyGeo;
+	return intersect(ray, &dummyt, &dummyGeo);
 }
 
 bool TransSphere::isTransformed()

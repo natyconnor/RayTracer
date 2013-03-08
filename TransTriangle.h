@@ -19,6 +19,7 @@ public:
 
 	TransTriangle(Point a, Point b, Point c, BRDF brdf, vector<Transform>* transformations);
 	bool intersect(Ray& ray, float *thit, LocalGeo* local);
+	bool intersectP(Ray& ray);
 	void getBRDF(LocalGeo& local, BRDF* brdf);
 	bool isTransformed();
 

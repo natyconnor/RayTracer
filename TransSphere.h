@@ -17,6 +17,7 @@ public:
 
 	TransSphere(Point p, float rad, BRDF brdf, vector<Transform>* transformations);
 	bool intersect(Ray& ray, float *thit, LocalGeo* local);
+	bool intersectP(Ray& ray);
 	void getBRDF(LocalGeo& local, BRDF* brdf);
 	bool isTransformed();
 	vector<Transform> getTrans();

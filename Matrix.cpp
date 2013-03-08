@@ -20,6 +20,8 @@ Matrix::Matrix()
 	mat[1][1] = 1;
 	mat[2][2] = 1;
 	mat[3][3] = 1;
+
+	type = "identity";
 }
 
 Matrix::Matrix(string transform, float x, float y, float z)
@@ -33,6 +35,7 @@ Matrix::Matrix(string transform, float x, float y, float z)
 	}
 	if (!transform.compare("translate"))
 	{
+		type = "translate";
 		cout << "translating " << x << " " << y  << " " << z << endl;
 		mat[3][0] = x;
 		mat[3][1] = y;
@@ -45,6 +48,7 @@ Matrix::Matrix(string transform, float x, float y, float z)
 	}
 	else if (!transform.compare("scale"))
 	{
+		type = "scale";
 		cout << "scaling " << x << " " << y  << " " << z << endl;
 		mat[0][0] = x;
 		mat[1][1] = y;
@@ -60,6 +64,7 @@ Matrix::Matrix(string transform, float x, float y, float z)
 
 Matrix::Matrix(float x, float y, float z, float angle)
 {
+	type = "rotate";
 	cout << "rotating " << x << " " << y  << " " << z << " " << angle << endl;
 	for (int i = 0; i < 4; i++)
 	{
@@ -130,9 +135,9 @@ Normal Matrix::operator*(Normal vec)
 	float a = mat[0][0]*vec.x + mat[1][0]*vec.y + mat[2][0]*vec.z + mat[3][0]*1;
 	float b = mat[0][1]*vec.x + mat[1][1]*vec.y + mat[2][1]*vec.z + mat[3][1]*1;
 	float c = mat[0][2]*vec.x + mat[1][2]*vec.y + mat[2][2]*vec.z + mat[3][2]*1;
-	//float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
+	float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
 	//cout << "Out: " << a << " " << b << " " << c << endl;
-	return Normal(a,b,c);
+	return Normal(a/d,b/d,c/d);
 }
 
 void Matrix::transpose()

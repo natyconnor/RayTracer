@@ -102,7 +102,7 @@ void Scene::loadScene(std::string file) {
   Color currentKD = Color();
   Color currentKS = Color();
   Color currentKR = Color();
-  float currentSP = 1.0f;
+  float currentSP = 20.0f;
 
 
   std::string fname = "output.bmp";
