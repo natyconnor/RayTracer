@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Point.cpp"
 #include "Vector.h"
+#include "Normal.h"
 
 using namespace std;
 
@@ -16,6 +17,8 @@ public:
 	float mat[4][4];
 	Point operator*(Point p);
 	Vector operator*(Vector vec);
+	Normal operator*(Normal n);
+	void transpose();
 	void print();
 };
 #endif

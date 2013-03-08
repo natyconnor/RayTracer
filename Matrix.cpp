@@ -98,42 +98,63 @@ Matrix::Matrix(float x, float y, float z, float angle)
 	print();
 }
 
- Point Matrix::operator*(Point p)
- {
-	 //print();
-	 //cout << "In: " << p.x << " " << p.y << " " << p.z << endl;
-	 float a = mat[0][0]*p.x + mat[1][0]*p.y + mat[2][0]*p.z + mat[3][0]*1;
-	 float b = mat[0][1]*p.x + mat[1][1]*p.y + mat[2][1]*p.z + mat[3][1]*1;
-	 float c = mat[0][2]*p.x + mat[1][2]*p.y + mat[2][2]*p.z + mat[3][2]*1;
-	 //float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
-	 //cout << "Out: " << a << " " << b << " " << c << endl;
-	 return Point(a,b,c);
- }
+Point Matrix::operator*(Point p)
+{
+	//print();
+	//cout << "In: " << p.x << " " << p.y << " " << p.z << endl;
+	float a = mat[0][0]*p.x + mat[1][0]*p.y + mat[2][0]*p.z + mat[3][0]*1;
+	float b = mat[0][1]*p.x + mat[1][1]*p.y + mat[2][1]*p.z + mat[3][1]*1;
+	float c = mat[0][2]*p.x + mat[1][2]*p.y + mat[2][2]*p.z + mat[3][2]*1;
+	//float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
+	//cout << "Out: " << a << " " << b << " " << c << endl;
+	return Point(a,b,c);
+}
 
- Vector Matrix::operator*(Vector vec)
- {
-	 //print();
-	 //vec.print();
-	 //cout << "In: " << vec.x << " " << vec.y << " " << vec.z << endl;
-	 float a = mat[0][0]*vec.x + mat[1][0]*vec.y + mat[2][0]*vec.z + mat[3][0]*1;
-	 float b = mat[0][1]*vec.x + mat[1][1]*vec.y + mat[2][1]*vec.z + mat[3][1]*1;
-	 float c = mat[0][2]*vec.x + mat[1][2]*vec.y + mat[2][2]*vec.z + mat[3][2]*1;
-	 //float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
-	 //cout << "Out: " << a << " " << b << " " << c << endl;
-	 return Vector(a,b,c);
- }
+Vector Matrix::operator*(Vector vec) 
+{
+	//print();
+	//vec.print();
+	//cout << "In: " << vec.x << " " << vec.y << " " << vec.z << endl;
+	float a = mat[0][0]*vec.x + mat[1][0]*vec.y + mat[2][0]*vec.z + mat[3][0]*1;
+	float b = mat[0][1]*vec.x + mat[1][1]*vec.y + mat[2][1]*vec.z + mat[3][1]*1;
+	float c = mat[0][2]*vec.x + mat[1][2]*vec.y + mat[2][2]*vec.z + mat[3][2]*1;
+	//float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
+	//cout << "Out: " << a << " " << b << " " << c << endl;
+	return Vector(a,b,c);
+}
+Normal Matrix::operator*(Normal vec)
+{
+	//print();
+	//vec.print();
+	//cout << "In: " << vec.x << " " << vec.y << " " << vec.z << endl;
+	float a = mat[0][0]*vec.x + mat[1][0]*vec.y + mat[2][0]*vec.z + mat[3][0]*1;
+	float b = mat[0][1]*vec.x + mat[1][1]*vec.y + mat[2][1]*vec.z + mat[3][1]*1;
+	float c = mat[0][2]*vec.x + mat[1][2]*vec.y + mat[2][2]*vec.z + mat[3][2]*1;
+	//float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
+	//cout << "Out: " << a << " " << b << " " << c << endl;
+	return Normal(a,b,c);
+}
 
- void Matrix::print()
- {
-	 for (int i = 0; i < 4; i++)
-	 {
-		 cout << "[";
-		 for (int j = 0; j < 4; j++)
-		 {
-			 cout << mat[j][i] << " ";
-		 }
-		 cout << "] " << endl;
-	 }
-	 cout << endl;
- }
+void Matrix::transpose()
+{
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 4; j++){
+			mat[j][i] = mat[i][j];
+		}
+	}
+}
+
+void Matrix::print()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		cout << "[";
+		for (int j = 0; j < 4; j++)
+		{
+			cout << mat[j][i] << " ";
+		}
+		cout << "] " << endl;
+	}
+	cout << endl;
+}
 

@@ -85,11 +85,18 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 					{
 						ray.pos = m*ray.pos;
 						//ray.dir = m*ray.dir;
+						m.transpose();
+						intersection.norm = m*(intersection.norm);
+						m.transpose();
 					}
 					else //scale
 					{
 						ray.pos = m*ray.pos;
 						ray.dir = m*ray.dir;
+
+						m.transpose();
+						intersection.norm = m*(intersection.norm);
+						m.transpose();
 					}
 				}
 			}
@@ -105,10 +112,33 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		Vector rDir = ray.dir - (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
 		rDir.normalize();
 		Ray r = Ray(intersection.pos, rDir, 0.1, ray.t_max);
+		///////////////////////////////////////////////////////////////////////////////////
 
 		for(vector<Light*>::iterator lIter = lights.begin(); lIter != lights.end(); ++ lIter){
 			Light* l = *lIter;
 			(*l).generateLightRay(closestInter, &lray, &lcolor);
+
+			if(transformed == true){
+				for (int i = 0 ; i < transforms.size(); i++)
+				{
+					//for each matrix
+					for (int j = 0; j < transforms.at(i).transforms.size(); j++)
+					{
+						Matrix m = transforms.at(i).transforms.at(j);
+						if (m.mat[0][0] == 1 && m.mat[1][1] == 1 && m.mat[2][2] == 1) //translate
+						{
+							lray.pos = m*lray.pos;
+							//ray.dir = m*ray.dir;
+						}
+						else //scale
+						{
+							lray.pos = m*lray.pos;
+							lray.dir = m*lray.dir;
+						}
+					}
+				}
+			}
+
 
 			//check for intersection with primitives for shadows
 			bool isShadow = false;
