@@ -15,7 +15,6 @@ Triangle::Triangle(Point p1, Point p2, Point p3, BRDF brdf)
 	v2 = p2;
 	v3 = p3;
 	myBRDF = brdf;
-	x = 0;
 }
 
 Normal Triangle::normal()
@@ -32,7 +31,6 @@ Normal Triangle::normal()
 }
 
 bool Triangle::intersect(Ray& ray, float* thit, LocalGeo* local){
-
 	/*Geometric solution*/
 	Normal n = normal();
 
@@ -43,7 +41,7 @@ bool Triangle::intersect(Ray& ray, float* thit, LocalGeo* local){
 	float d = n.dot(v1);
 
 	//with equation of ray and equation of plane, we can calculate thit
-	float t = -(n.dot(ray.pos) + d) / (n.dot(ray.dir));
+	float t = (n.dot(ray.pos) + d) / (n.dot(ray.dir));
 
 	//check if triangle is not within ray's length
 	if(t < ray.t_min || t > ray.t_max)
@@ -88,14 +86,6 @@ bool Triangle::intersectP(Ray& ray){
 	float dummyt;
 	LocalGeo dummyGeo;
 	return intersect(ray, &dummyt, &dummyGeo);
-}
-
-bool Triangle::isTransformed(){
-	return false;
-}
-
-vector<Transform> Triangle::getTrans(){
-	return vector<Transform>();
 }
 
 void Triangle::getBRDF(LocalGeo& local, BRDF* brdf){

@@ -3,7 +3,7 @@
 
 RayTracer::RayTracer(void)
 {
-	threshold = 1;
+	threshold = 10;
 	//prims.push_back(Sphere());
 	eyePos = Point(0, 0, 0);
 }
@@ -45,10 +45,6 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	float minDistance = 99999;
 	Primitive* closest = 0;
 
-	//transorms
-	bool transformed = false;
-	vector<Transform> transforms;
-
 	//loop through all primitives
 	for(vector<Primitive*>::iterator iter = prims.begin(); iter != prims.end(); ++iter){
 		Primitive* s = *iter;
@@ -60,74 +56,25 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 				minDistance = thit;
 				closest = s;
 				closestInter = intersection;
-
-				//get transforms of new closest object
-				if((*s).isTransformed() == true) {
-					transformed = true;
-					transforms = (*s).getTrans();
-				} else {
-					transformed = false;
-				}
 			}
 		}
 	}
 	//compute shading
 	if(minDistance != 99999){
-
-		if(transformed == true){
-			for (int i = 0 ; i < transforms.size(); i++)
-			{
-				//for each matrix
-				for (int j = 0; j < transforms.at(i).transforms.size(); j++)
-				{
-					Matrix m = transforms.at(i).transforms.at(j);
-					Matrix n = transforms.at(i).nTransforms.at(j);
-					if (m.mat[0][0] == 1 && m.mat[1][1] == 1 && m.mat[2][2] == 1) //translate
-					{
-						ray.pos = m*ray.pos;
-
-						//closestInter.pos = n*(closestInter.pos);
-
-						//ray.dir = m*ray.dir;
-						//m.transpose();
-						//closestInter.norm = n*(closestInter.norm);
-						//m.transpose();
-					}
-					else //scale
-					{
-						ray.pos = m*ray.pos;
-						ray.dir = m*ray.dir;
-
-						//closestInter.pos = n*(closestInter.pos);
-
-						//m.transpose();
-						//closestInter.norm = n*(closestInter.norm);
-						//intersection.norm.normalize();
-						//m.transpose();
-
-					}
-				}
-			}
-		}
-
 		Ray lray = Ray();
-		Ray tlray = Ray();
 		Color lcolor = Color();
 		BRDF brdf = BRDF();
 		(*closest).getBRDF(closestInter, &brdf);
 		*color = brdf.ka;
 
 		//Reflection info. Need r vector like in specular. Find way to send this to shading?
-		Vector rDir = ray.dir - (closestInter.norm * (2 * closestInter.norm.dot(ray.dir)));
+		Vector rDir = ray.dir - (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
 		rDir.normalize();
-		Ray r = Ray(closestInter.pos, rDir, 0.005, ray.t_max);
-		/////////////////////////////////////////////////////////////////////////////////
-
+		Ray r = Ray(intersection.pos, rDir, 0.1, ray.t_max);
 
 		for(vector<Light*>::iterator lIter = lights.begin(); lIter != lights.end(); ++ lIter){
 			Light* l = *lIter;
 			(*l).generateLightRay(closestInter, &lray, &lcolor);
-			//tlray = lray;
 
 			//check for intersection with primitives for shadows
 			bool isShadow = false;
@@ -138,41 +85,6 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 					break;
 				}
 			}
-
-			if(transformed == true){
-				for (int i = 0 ; i < transforms.size(); i++)
-				{
-					//for each matrix
-					for (int j = 0; j < transforms.at(i).transforms.size(); j++)
-					{
-						Matrix m = transforms.at(i).transforms.at(j);
-						Matrix n = transforms.at(i).nTransforms.at(j);
-						if (m.mat[0][0] == 1 && m.mat[1][1] == 1 && m.mat[2][2] == 1) //translate
-						{
-							//lray.pos = m*lray.pos;
-							//closestInter.pos = n*(closestInter.pos);
-
-							//ray.dir = m*ray.dir;
-							//m.transpose();
-							//closestInter.norm = n*(closestInter.norm);
-							//m.transpose();
-						}
-						else //scale
-						{
-							//lray.pos = m*lray.pos;
-							//lray.dir = m*lray.dir;
-							//closestInter.pos = n*(closestInter.pos);
-
-							//m.transpose();
-							//closestInter.norm = n*(closestInter.norm);
-							//intersection.norm.normalize();
-							//m.transpose();
-
-						}
-					}
-				}
-			}
-
 
 			if(!isShadow){
 				Color refColor = Color();
@@ -191,7 +103,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	}
 }
 
-Color RayTracer::shading(LocalGeo& point, BRDF brdf, Ray& origRay, Ray& lray, Color lcolor){
+Color RayTracer::shading(LocalGeo point, BRDF brdf, Ray origRay, Ray lray, Color lcolor){
 	//diffuse component
 	//dot product between normal and light vectors
 	float diff = point.norm.dot(lray.dir);

@@ -6,9 +6,6 @@
 #include "Ray.h"
 #include "Camera.h"
 #include "RayTracer.h"
-#include "Transform.h"
-#include "TransSphere.h"
-#include "TransTriangle.h"
 
 #include "FreeImage.h"
 
@@ -43,7 +40,6 @@ class Scene {
 
 	vector<Point> vertices;
 	vector<Primitive*> prims;
-	vector<Transform> transforms;
 
   public:
 	Scene();
@@ -53,7 +49,6 @@ class Scene {
 };
 
 inline Scene::Scene(){
-	transforms = vector<Transform>();
 }
 
 /*inline Scene::Scene(Point eyePos, Point LL, Point UL, Point UR, Point LR, int height, int width)
@@ -79,7 +74,7 @@ inline void Scene::render(){
 	while(sampler.getSample(&sample)){
 		color = Color();
 		camera.generateRay(sample, &ray);
-		raytracer.trace(ray, 0, &color);
+		raytracer.trace(ray, 1, &color);
 		film.commit(sample, color);
 	}
 	film.writeImage();
@@ -97,13 +92,12 @@ int main(int argc, char *argv[]){
 void Scene::loadScene(std::string file) {
   //store variables and set stuff at the end
   int width, height;
-  int maxdepth = 1;
 
   Color currentKA = Color(0.2, 0.2, 0.2);
   Color currentKD = Color();
   Color currentKS = Color();
   Color currentKR = Color();
-  float currentSP = 20.0f;
+  float currentSP = 1.0f;
 
 
   std::string fname = "output.bmp";
@@ -139,7 +133,7 @@ void Scene::loadScene(std::string file) {
       //maxdepth depth
       //  max # of bounces for ray (default 5)
       else if(!splitline[0].compare("maxdepth")) {
-         maxdepth = atoi(splitline[1].c_str());
+         //maxdepth = atoi(splitline[1].c_str())
       }
       //output filename
       //  output file to write image to 
@@ -195,21 +189,20 @@ void Scene::loadScene(std::string file) {
 		ray = Ray();
 		//camera = Camera(myEyePos, myLL, myUL, myUR, myLR, myHeight, myWidth);
 		camera = Camera(lookfrom, lookat, up, fov, width, height);
-		raytracer = RayTracer(maxdepth, lookfrom);
+		raytracer = RayTracer(3, lookfrom);
 	  
 	  }
       //sphere x y z radius
       //  Deﬁnes a sphere with a given position and radius.
       else if(!splitline[0].compare("sphere")) {
-		Point center = Point(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
-		float r = atof(splitline[4].c_str());
-		if(transforms.size() == 0){
-			Sphere* s = new Sphere(center,r,BRDF(currentKD, currentKS, currentKA, currentKR, currentSP));
-			raytracer.addPrim(s);
-		} else {
-			TransSphere* s = new TransSphere(center,r,BRDF(currentKD, currentKS, currentKA, currentKR, currentSP), new vector<Transform>(transforms));
-			raytracer.addPrim(s);
-		}
+        Point center = Point(atof(splitline[1].c_str()), atof(splitline[2].c_str()), atof(splitline[3].c_str()));
+        float r = atof(splitline[4].c_str());
+        // Create new sphere:
+        //   Store 4 numbers
+        //   Store current property values
+        //   Store current top of matrix stack
+		Sphere* s = new Sphere(center,r,BRDF(currentKD, currentKS, currentKA, currentKR, currentSP));
+		raytracer.addPrim(s);
       }
       //maxverts number
       //  Deﬁnes a maximum number of vertices for later triangle speciﬁcations. 
@@ -255,14 +248,13 @@ void Scene::loadScene(std::string file) {
         float v1 = atof(splitline[1].c_str());
         float v2 = atof(splitline[2].c_str());
         float v3 = atof(splitline[3].c_str());
-
-		if(transforms.size() == 0){
-			Triangle* t = new Triangle(vertices.at(v1),vertices.at(v2),vertices.at(v3), BRDF(currentKD, currentKS, currentKA, currentKR, currentSP));
-			raytracer.addPrim(t);
-		} else {
-			TransTriangle* t = new TransTriangle(vertices.at(v1),vertices.at(v2),vertices.at(v3), BRDF(currentKD, currentKS, currentKA, currentKR, currentSP), new vector<Transform>(transforms));
-			raytracer.addPrim(t);
-		}
+        // Create new triangle:
+        //   Store pointer to array of vertices
+        //   Store 3 integers to index into array
+        //   Store current property values
+        //   Store current top of matrix stack
+		Triangle* t = new Triangle(vertices.at(v1),vertices.at(v2),vertices.at(v3), BRDF(currentKD, currentKS, currentKA, currentKR, currentSP));
+		raytracer.addPrim(t);
       }
       //trinormal v1 v2 v3
       //  Same as above but for vertices speciﬁed with normals.
@@ -282,37 +274,34 @@ void Scene::loadScene(std::string file) {
       //translate x y z
       //  A translation 3-vector
       else if(!splitline[0].compare("translate")) {
-        float x = atof(splitline[1].c_str());
-        float y = atof(splitline[2].c_str());
-        float z = atof(splitline[3].c_str());
+        // x: atof(splitline[1].c_str())
+        // y: atof(splitline[2].c_str())
+        // z: atof(splitline[3].c_str())
         // Update top of matrix stack
-		transforms.back().addTranslate(-x, -y, -z);
       }
       //rotate x y z angle
       //  Rotate by angle (in degrees) about the given axis as in OpenGL.
       else if(!splitline[0].compare("rotate")) {
-        float x = atof(splitline[1].c_str());
-        float y = atof(splitline[2].c_str());
-        float z = atof(splitline[3].c_str());
-		float angle = atof(splitline[4].c_str());
+        // x: atof(splitline[1].c_str())
+        // y: atof(splitline[2].c_str())
+        // z: atof(splitline[3].c_str())
+        // angle: atof(splitline[4].c_str())
         // Update top of matrix stack
-		transforms.back().addRotate(x, y, z, -angle);
       }
       //scale x y z
       //  Scale by the corresponding amount in each axis (a non-uniform scaling).
       else if(!splitline[0].compare("scale")) {
-        float x = atof(splitline[1].c_str());
-        float y = atof(splitline[2].c_str());
-        float z = atof(splitline[3].c_str());
+        // x: atof(splitline[1].c_str())
+        // y: atof(splitline[2].c_str())
+        // z: atof(splitline[3].c_str())
         // Update top of matrix stack
-		transforms.back().addScale(1/x, 1/y, 1/z);
       }
       //pushTransform
       //  Push the current modeling transform on the stack as in OpenGL. 
       //  You might want to do pushTransform immediately after setting 
       //   the camera to preserve the “identity” transformation.
       else if(!splitline[0].compare("pushTransform")) {
-        transforms.push_back(Transform());
+        //mst.push();
       }
       //popTransform
       //  Pop the current transform from the stack as in OpenGL. 
@@ -321,7 +310,7 @@ void Scene::loadScene(std::string file) {
       //  (assuming the initial camera transformation is on the stack as 
       //  discussed above).
       else if(!splitline[0].compare("popTransform")) {
-        transforms.pop_back();
+        //mst.pop();
       }
       //directional x y z r g b
       //  The direction to the light source, and the color, as in OpenGL.
@@ -376,7 +365,6 @@ void Scene::loadScene(std::string file) {
         float b = atof(splitline[3].c_str());
         // Update current properties
 		currentKS = Color(r,g,b);
-		//currentKR = Color(r,g,b);
       }
       //shininess s
       //  speciﬁes the shininess of the surface.

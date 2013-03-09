@@ -1,9 +1,6 @@
 #include "Vector.h"
 
 #include <cmath>
-#include <iostream>
-
-using namespace std;
 
 
 Vector::Vector(void)
@@ -55,10 +52,6 @@ float Vector::dot(Vector other){
 
 Vector Vector::cross(Vector other){
 	return Vector(y*other.z - z*other.y, z*other.x - x*other.z, x*other.y - y*other.x);
-}
-
-void Vector::print(){
-	cout << "[" << x << " " << y << " " << z << "]" << endl;
 }
 
 Vector::~Vector(void)

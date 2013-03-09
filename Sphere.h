@@ -6,7 +6,6 @@
 #include "Ray.h"
 #include "LocalGeo.h"
 #include "BRDF.h"
-#include "Transform.h"
 
 using namespace std;
 
@@ -24,9 +23,6 @@ public:
 	bool intersect(Ray& ray, float* thit, LocalGeo* local);
 	bool intersectP(Ray& ray);
 	void getBRDF(LocalGeo& local, BRDF* brdf);
-
-	bool isTransformed();
-	vector<Transform> getTrans();
 };
 
 #endif

@@ -25,7 +25,7 @@ public:
 	~RayTracer(void);
 
 	void trace(Ray& ray, int depth, Color* color);
-	Color shading(LocalGeo& point, BRDF brdf, Ray& origRay, Ray& lray, Color lcolor);
+	Color shading(LocalGeo point, BRDF brdf, Ray origRay, Ray lray, Color lcolor);
 	void addPrim(Primitive* prim);
 	void addLight(Light* l);
 };

@@ -121,15 +121,6 @@ void Sphere::getBRDF(LocalGeo& local, BRDF* brdf){
 }
 
 
-bool Sphere::isTransformed(){
-	return false;
-}
-
-vector<Transform> Sphere::getTrans(){
-	return vector<Transform>();
-}
-
-
 Sphere::~Sphere(void)
 {
 }

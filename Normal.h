@@ -20,8 +20,6 @@ public:
 
 	float dot(Vector other);
 	float dot(Point other);
-
-	void print();
 };
 
 #endif

@@ -21,8 +21,6 @@ public:
 	float magnitude();
 	float dot(Vector other);
 	Vector cross(Vector other);
-
-	void print();
 };
 
 
