@@ -15,7 +15,7 @@ PointLight::PointLight(Point pos, Color color){
 void PointLight::generateLightRay(LocalGeo& local, Ray* lray, Color* lcolor) {
 	Vector rayDir = myPos - local.pos;
 	rayDir.normalize();
-	*lray = Ray(local.pos, rayDir, 0.1, 100);
+	*lray = Ray(local.pos, rayDir, 0.005, 100);
 	*lcolor = myColor;
 }
 

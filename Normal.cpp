@@ -1,5 +1,8 @@
 #include "Normal.h"
 #include <math.h>
+#include <iostream>
+
+using namespace std;
 
 Normal::Normal(void)
 {
@@ -38,4 +41,8 @@ float Normal::dot(Vector other){
 
 float Normal::dot(Point other){
 	return x * other.x + y * other.y + z * other.z;
+}
+
+void Normal::print(){
+	cout << "[" << x << " " << y << " " << z << "]" << endl;
 }
