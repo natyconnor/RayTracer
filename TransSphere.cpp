@@ -41,13 +41,31 @@ bool TransSphere::intersect(Ray& ray, float *thit, LocalGeo* local)
 	float a = ray.dir.dot(ray.dir);
 	float b = 2*(ray.pos - center).dot(ray.dir);
 	float c = (ray.pos - center).dot((ray.pos - center)) - radius*radius;
-	if (b*b-4.0*a*c < 0)
+
+	float t0, t1;
+	float discr = b*b-4.0*a*c;
+	if (discr < 0)
 	{
 		ray = newr;
 		return false;
 	}
-	float t0 = (-b + sqrt(b*b-4.0*a*c))/(2.0*a);
-	float t1 = (-b - sqrt(b*b-4.0*a*c))/(2.0*a);
+	if(b*b-4.0*a*c == 0){
+		t0 = t1 = -0.5 * b / a;
+	} else {
+		float q = (b > 0) ?
+			-0.5 * (b + sqrt(discr)) :
+			-0.5 * (b - sqrt(discr));
+		t0 = q / a;
+		t1 = c / q;
+	}
+
+
+	//float t0 = (-b + sqrt(b*b-4.0*a*c))/(2.0*a);
+	//float t1 = (-b - sqrt(b*b-4.0*a*c))/(2.0*a);
+	
+	
+	
+	
 	//cout << t0 << " " << t1 << endl;
 	if (t0 > ray.t_min && t1 > ray.t_min && t0 < ray.t_max && t1 < ray.t_max)
 	{
@@ -71,7 +89,9 @@ bool TransSphere::intersect(Ray& ray, float *thit, LocalGeo* local)
 					//point = m*point;
 				}
 				else if(!m.type.compare("rotate")){
+					inverse.transpose();
 					n = inverse*n;
+					inverse.transpose();
 				}
 			}
 		}

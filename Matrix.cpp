@@ -135,16 +135,19 @@ Normal Matrix::operator*(Normal vec)
 	float a = mat[0][0]*vec.x + mat[1][0]*vec.y + mat[2][0]*vec.z + mat[3][0]*1;
 	float b = mat[0][1]*vec.x + mat[1][1]*vec.y + mat[2][1]*vec.z + mat[3][1]*1;
 	float c = mat[0][2]*vec.x + mat[1][2]*vec.y + mat[2][2]*vec.z + mat[3][2]*1;
-	float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
+	//float d = mat[0][3]*vec.x + mat[1][3]*vec.y + mat[2][3]*vec.z + mat[3][3]*1;
 	//cout << "Out: " << a << " " << b << " " << c << endl;
-	return Normal(a/d,b/d,c/d);
+	return Normal(a,b,c);
 }
 
 void Matrix::transpose()
 {
+	float temp;
 	for(int i = 0; i < 4; i++){
-		for(int j = 0; j < 4; j++){
-			mat[j][i] = mat[i][j];
+		for(int j = i; j < 4; j++){
+			temp = mat[i][j];
+			mat[i][j] = mat[j][i];
+			mat[j][i] = temp;
 		}
 	}
 }

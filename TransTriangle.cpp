@@ -104,29 +104,31 @@ bool TransTriangle::intersect(Ray& ray, float *thit, LocalGeo* local)
 	
 
 	for (int i = 0 ; i < transforms->size(); i++)
+	{
+		//for each matrix
+		for (int j = transforms->at(i).transforms.size()-1; j >= 0; j--)
+		//for(int j = 0; j < transforms->at(i).transforms.size(); j++)
 		{
-			//for each matrix
-			for (int j = transforms->at(i).transforms.size()-1; j >= 0; j--)
-			//for(int j = 0; j < transforms->at(i).transforms.size(); j++)
-			{
-				Matrix m = transforms->at(i).transforms.at(j);
-				Matrix inverse = transforms->at(i).nTransforms.at(j);
+			Matrix m = transforms->at(i).transforms.at(j);
+			Matrix inverse = transforms->at(i).nTransforms.at(j);
 
-				p = m * p;
-				if (!m.type.compare("scale")){
-					m.transpose();
-					n = m*n;
-					//p = m*p;
-					m.transpose();
-				}
-				else if(!m.type.compare("rotate")){
-					n = inverse*n;
-				}
+			p = inverse * p;
+			if (!m.type.compare("scale")){
+				m.transpose();
+				n = m*n;
+				//p = m*p;
+				m.transpose();
+			}
+			else if(!m.type.compare("rotate")){
+				inverse.transpose();
+				n = inverse*n;
+				inverse.transpose();
 			}
 		}
+	}
+	Vector test = n * -1;
 
-	n.normalize();
-	*local = LocalGeo(p, n);
+	*local = LocalGeo(p, Normal(test.x, test.y, test.z));
 
 	
 	//ray.dir.print();

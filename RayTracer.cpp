@@ -120,7 +120,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		//Reflection info. Need r vector like in specular. Find way to send this to shading?
 		Vector rDir = ray.dir - (closestInter.norm * (2 * closestInter.norm.dot(ray.dir)));
 		rDir.normalize();
-		Ray r = Ray(closestInter.pos, rDir, 0.1, ray.t_max);
+		Ray r = Ray(closestInter.pos, rDir, 0.005, ray.t_max);
 		/////////////////////////////////////////////////////////////////////////////////
 
 

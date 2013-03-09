@@ -97,6 +97,7 @@ int main(int argc, char *argv[]){
 void Scene::loadScene(std::string file) {
   //store variables and set stuff at the end
   int width, height;
+  int maxdepth = 2;
 
   Color currentKA = Color(0.2, 0.2, 0.2);
   Color currentKD = Color();
@@ -138,7 +139,7 @@ void Scene::loadScene(std::string file) {
       //maxdepth depth
       //  max # of bounces for ray (default 5)
       else if(!splitline[0].compare("maxdepth")) {
-         //maxdepth = atoi(splitline[1].c_str())
+         maxdepth = atoi(splitline[1].c_str());
       }
       //output filename
       //  output file to write image to 
@@ -194,7 +195,7 @@ void Scene::loadScene(std::string file) {
 		ray = Ray();
 		//camera = Camera(myEyePos, myLL, myUL, myUR, myLR, myHeight, myWidth);
 		camera = Camera(lookfrom, lookat, up, fov, width, height);
-		raytracer = RayTracer(3, lookfrom);
+		raytracer = RayTracer(maxdepth, lookfrom);
 	  
 	  }
       //sphere x y z radius
@@ -375,6 +376,7 @@ void Scene::loadScene(std::string file) {
         float b = atof(splitline[3].c_str());
         // Update current properties
 		currentKS = Color(r,g,b);
+		//currentKR = Color(r,g,b);
       }
       //shininess s
       //  speciﬁes the shininess of the surface.
