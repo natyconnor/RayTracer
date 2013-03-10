@@ -18,6 +18,16 @@ Ray::Ray(Point position, Vector direction, float min, float max)
 	dir.normalize();
 }
 
+Ray::Ray(Point position, Vector direction, float min, float max, bool normalize=true)
+{
+	pos = position;
+	dir = direction;
+	t_min = min;
+	t_max = max;
+	if(normalize == true)
+		dir.normalize();
+}
+
 
 Ray::~Ray(void)
 {

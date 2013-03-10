@@ -4,11 +4,15 @@
 #include "Ray.h"
 #include "LocalGeo.h"
 #include "BRDF.h"
+#include "Transform.h"
 
 using namespace std;
 
 class Primitive {
 public:
+	virtual bool isTransformed() = 0;
+	virtual Transform getTrans() = 0;
+
 	virtual bool intersect(Ray& ray, float* thit, LocalGeo* local) = 0;
 	virtual bool intersectP(Ray& ray) = 0;
 	virtual void getBRDF(LocalGeo& local, BRDF* brdf) = 0;

@@ -12,6 +12,7 @@ public:
 
 	Ray(void);
 	Ray(Point position, Vector direction, float min, float max);
+	Ray(Point position, Vector direction, float min, float max, bool normalize);
 	~Ray(void);
 };
 

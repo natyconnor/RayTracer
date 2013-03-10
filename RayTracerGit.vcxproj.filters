@@ -75,6 +75,15 @@
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\Matrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BRDF.h">
@@ -120,6 +129,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Nathan%27s Stuff\My Documents\GitHub\RayTracer\TransSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

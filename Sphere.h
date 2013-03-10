@@ -16,9 +16,13 @@ public:
 	float radius;
 	BRDF myBRDF;
 
+
+
 	Sphere(void);
 	Sphere(Point cen, float rad, BRDF brdf);
 	~Sphere(void);
+
+	bool isTransformed();
 
 	bool intersect(Ray& ray, float* thit, LocalGeo* local);
 	bool intersectP(Ray& ray);

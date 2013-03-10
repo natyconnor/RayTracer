@@ -1,25 +1,17 @@
-size 500 500
+# Test Scene 3
+# Intended to show transforms
+# I know it's not the most exciting of scenes...
 
-camera 0 0 0 0 0 -1 0 1 0 30
+size 640 480 
 
-directional 0.57735027 -0.57735027 -0.57735027 1 1 1
-directional 0.57735027  0.57735027 -0.57735027 0 0 1
+camera 0 0 0 0 0 -1 0 1 0 45
 
-ambient 0.1 0.1 0.1
-diffuse 1 0 1
+point 1 1 1 1 1 1
+diffuse 1 0 0
 specular 1 1 1
 shininess 50
-sphere 0 0 -20 3
 
-diffuse 1 1 0
-sphere -2 2 -15 1
-
-diffuse 0 1 1
-sphere -2 -2 -15 1
-
-diffuse 0.1 0.1 0.1
-reflection 1 1 1
-vertex 5 5 -17
-vertex 1 4 -20
-vertex 6 -1 -20
-tri 0 1 2
+pushTransform
+scale 2 1 1
+sphere 0 0 -5 1
+popTransform

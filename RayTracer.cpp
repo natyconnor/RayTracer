@@ -1,5 +1,6 @@
 #include "RayTracer.h"
 #include "Point.cpp"
+#include "Transform.h"
 
 RayTracer::RayTracer(void)
 {
@@ -45,6 +46,9 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 	float minDistance = 99999;
 	Primitive* closest = 0;
 
+	bool transformed = false;
+	Transform trans;
+
 	//loop through all primitives
 	for(vector<Primitive*>::iterator iter = prims.begin(); iter != prims.end(); ++iter){
 		Primitive* s = *iter;
@@ -66,6 +70,7 @@ void RayTracer::trace(Ray& ray, int depth, Color* color){
 		BRDF brdf = BRDF();
 		(*closest).getBRDF(closestInter, &brdf);
 		*color = brdf.ka;
+
 
 		//Reflection info. Need r vector like in specular. Find way to send this to shading?
 		Vector rDir = ray.dir - (intersection.norm * (2 * intersection.norm.dot(ray.dir)));
